@@ -1,6 +1,5 @@
 const express = require('express')
-const { MongoClient, ObjectID } = require('mongodb')
-
+const { MongoClient, ObjectID } = require('mongodb');
 const app = express()
 
 // Enable CORS middleware
@@ -36,10 +35,10 @@ connectToMongoDB();
 
 
 // Specify the collection name you want to work with
-const collectionName = 'users';
-const collection = () => client.db('e_commerce').collection(collectionName);
-//const product = () => client.db('products').collection(collectionName)
-
+const Database = 'e_commerce'
+const collection = () => client.db(Database).collection('users');
+const products = () => client.db(Database).collection('products')
+const cart = () => client.db(Database).collection('item_cart')
 
 // Middleware to parse JSON data in the request body
 app.use(express.json());
@@ -107,7 +106,7 @@ app.get('/', async (req, res) => {
       const document = await collection().findOne({ email, password });
   
       if (document) {
-        res.json({ auth: true });
+        res.json({ auth: true , content: document});
       } else {
         res.json({ auth: false });
       }
@@ -118,21 +117,38 @@ app.get('/', async (req, res) => {
   });
   
   //products
-  app.post('/user', async (req, res) => {
+  app.get('/products', async (req, res) => {
     try {
-      const newDocument = req.body;
-      const result = await collection().insertOne(newDocument);
-      console.log(result)
-  
-      //get all data
-      const users = await collection().find({}).toArray()
-      res.json(users);
+      const documents = await products().find({}).toArray();
+      res.json(documents);
     } catch (error) {
-      console.error('Error creating document:', error);
-      res.status(500).send('Error creating document');
+      res.status(500).send(error);
     }
   });
   
   app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
+  });
+
+  //add product to cart per id
+
+  app.post('/add-to-cart', async (req, res) => {
+    try {
+      const { _idUser, _idProduct } = req.body;
+      const GetProduct = await products().findOne({ _id: ObjectID(_idProduct) });
+
+      
+      const newProduct = {'name':GetProduct.name, 'image_url': GetProduct.image_url, 'price': GetProduct.price, 'user_id': _idUser }
+
+      const result = await cart().insertOne(newProduct);
+
+      if (result) {
+        res.json({ added: true , content: document});
+      } else {
+        res.json({ added: false });
+      }
+    } catch (error) {
+      console.error('Error authenticating user:', error);
+      res.status(500).send('Error authenticating user');
+    }
   });

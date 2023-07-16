@@ -16,8 +16,10 @@ FormLogin.addEventListener('submit', async (event) =>{
 
     const response = await request.json()
     console.log(response)
+    console.log(response)
     if(response.auth === true){
-        localStorage.setItem('sessionID', email.value)
+        localStorage.setItem('sessionID', response.content._id)
+        location.reload()
     }else{
         toastr.error('Login Failed', 'Wrong email or password!')
     }

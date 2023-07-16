@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products</title>
     <link rel="stylesheet" href="../output.css" />
+
+   
 </head>
 <body>
     <header class="bg-white">
@@ -114,5 +116,39 @@
           </div>
         </div>
       </header>
+
+
+      <!--
+  Heads up! 👋
+
+  This component comes with some `rtl` classes. Please remove them if they are not needed in your project.
+
+  Plugins:
+    - @tailwindcss/forms
+-->
+
+<section>
+  <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+    <header>
+      <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">
+        Products
+      </h2>
+
+      <p class="mt-4 max-w-md text-gray-500">
+       List of products that we sell
+      </p>
+    </header>
+
+      <div class="lg:col-span-3">
+        <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" id ="ulProducts">
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+      <script defer src="./js/product.js"></script>
 </body>
 </html>
