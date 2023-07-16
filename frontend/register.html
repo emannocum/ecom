@@ -19,6 +19,13 @@
   <!-- Load fonts style after rendering the layout styles -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
   <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+
+
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <style>
     body {
       background-color: #f1f1f1;
@@ -231,12 +238,22 @@
       </div>
     </form>
   </div>
+
+     <!-- Toastr JS -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <script defer>
     const FormRegister = document.querySelector('#frmRegister')
     const txtFirstname = document.querySelector('#firstname')
     const txtLastname = document.querySelector('#lastname')
     const txtEmail = document.querySelector('#email')
     const txtPassword = document.querySelector('#password')
+
+    const ResetFields = () =>{
+      txtFirstname.value = ''
+      txtLastname.value = ''
+      txtEmail.value = ''
+      txtPassword.value =''
+    }
 
     FormRegister.addEventListener('submit', async (event) =>{
       event.preventDefault()
@@ -250,10 +267,18 @@
       })
 
       const response = await request.json()
+      if(response.requestStatus === 'success'){
+            // Display a success toast, with a title
+    toastr.success('Registered Succesfully', '')
+      }else{
+        // Display an error toast, with a title
+toastr.error('Registered failed', '')
+      }
 
-      console.log(response)
+      ResetFields()
     })
 
   </script>
+
 </body>
 </html>

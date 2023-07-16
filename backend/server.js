@@ -79,10 +79,10 @@ app.get('/', async (req, res) => {
   
       //get all data
       const users = await collection().find({}).toArray()
-      res.json(users);
+      res.json({requestStatus:'success',users});
     } catch (error) {
       console.error('Error creating document:', error);
-      res.status(500).send('Error creating document');
+      res.status(500).json({requestStatus:'error'});
     }
   });
   
